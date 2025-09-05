@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 import typing
 import os
 import torch
-os.environ["WANDB_PROJECT"] = "OptoQuant" 
+os.environ["WANDB_PROJECT"] = "speedrun" 
 num_gpus = torch.cuda.device_count()
 
 # main training args; optimizer args + etc needed for overriding trainer defaults + logging
