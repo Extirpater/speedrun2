@@ -81,6 +81,18 @@ def benchmark(params=None, **kwargs):
 
 
 def train(training_args, model_args, dataset_args, eval_args):
+    """
+    Main training function.
+    
+    Args:
+        training_args: Training configuration arguments
+        model_args: Model configuration arguments  
+        dataset_args: Dataset configuration arguments
+        eval_args: Evaluation configuration arguments
+        
+    Returns:
+        Training results from the trainer
+    """
     trainer = MergeTrainer.from_args(
         training_args, model_args, dataset_args, eval_args
     )

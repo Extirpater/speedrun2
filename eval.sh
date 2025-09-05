@@ -1,7 +1,18 @@
-python eval.py --model_name test_model/checkpoint-16000
+#!/bin/bash
 
-python eval.py --model_name test_model/checkpoint-16000 --num_fewshot 5
+# Speedrun Evaluation Script
+# This script evaluates a trained model on standard benchmarks
 
-python eval.py --model_name test_model/checkpoint-16000 --tasks hellaswag
+set -e  # Exit on any error
 
-python eval.py --model_name test_model/checkpoint-16000 --tasks arc_challenge
+# Default configuration
+MODEL_NAME="${1:-test_model/checkpoint-16000}"
+TASKS="${2:-mmlu hellaswag arc_challenge}"
+
+echo "Evaluating model: $MODEL_NAME"
+echo "Tasks: $TASKS"
+
+# Run evaluation
+python eval.py --model_name "$MODEL_NAME" --tasks $TASKS
+
+echo "Evaluation completed!"
