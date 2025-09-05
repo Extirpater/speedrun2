@@ -85,6 +85,8 @@ def main():
         try:
             for metric, val in res.items():
                 print(f"{metric}: {val}")
+                if task == "results":
+                    break
         except:
             break
 
