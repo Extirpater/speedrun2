@@ -13,7 +13,7 @@ learning_rate = 1e-4
 w_decay = 0.01
 lr_aux_adam = 1e-4
 decay_aux_adam = 0.01
-name = f"qwen3-2b/{optimizer_name}/bs{bs}/ctx4096/{num_gpus}h100s/distil"
+name = f"qwen3-2b/{optimizer_name}/bs{bs}/{num_gpus}h100s/distil"
 
 
 

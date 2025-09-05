@@ -13,7 +13,7 @@ A high-performance framework for training and evaluating language models with ad
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/deepgrove-ai/speedrun.git
    cd speedrun
    ```
 
@@ -29,7 +29,7 @@ A high-performance framework for training and evaluating language models with ad
    cd ..
    ```
 
-4. **Configure Weights & Biases (optional but recommended):**
+4. **Configure Weights & Biases (create an account if necessary):**
    ```bash
    wandb login
    ```
@@ -60,10 +60,10 @@ speedrun/
 │   └── objectives/               # Loss functions and training objectives
 │       ├── loss.py               # Core loss functions
 │       ├── objectives.py         # Training objective implementations
-│       ├── projectors.py         # Feature projection layers
-│       ├── whiten.py             # Whitening transformations
-│       ├── norm.py               # Normalization utilities
-│       └── layer_mappers.py      # Layer mapping utilities
+│       ├── projectors.py         # Feature projection layers (can be mostly ignored)
+│       ├── whiten.py             # Whitening transformations (can be mostly ignored)
+│       ├── norm.py               # Normalization utilities (can be mostly ignored)
+│       └── layer_mappers.py      # Layer mapping utilities (can be mostly ignored)
 ├── data/                         # Data processing and configuration
 │   ├── configs/
 │   │   └── data.json             # Dataset configuration
@@ -86,8 +86,7 @@ Key training parameters can be modified in `alg/args.py`:
 - **Optimizer**: `optimizer_name` - Choice of optimizer (cadamw, muon, etc.)
 - **Batch Size**: `per_device_train_batch_size` - Training batch size per device
 - **Learning Rate**: `learning_rate` - Initial learning rate
-- **Max Steps**: `max_steps` - Total training steps
-- **Context Length**: `concat_tokens` - Sequence length for training
+- **Max Steps**: `max_steps` - Total training steps (default is 16,000)
 
 ### Dataset Configuration
 
@@ -111,21 +110,10 @@ Each dataset entry includes:
 
 ## 🔧 Key Features
 
-### Advanced Optimizers
-- **CaAdamW**: Custom AdamW implementation with enhanced features
-- **Muon**: Novel optimizer with auxiliary parameters
-- **Liger Kernel**: Optional kernel optimization for performance
-
-### Quantization Support
-- **TWN Quantization**: Ternary Weight Networks for model compression
-- **Flash Attention**: Optimized attention implementation
-- **Gradient Checkpointing**: Memory-efficient training
-
-### Training Features
-- **Knowledge Distillation**: Student-teacher training paradigm
-- **Multi-GPU Support**: Distributed training with Accelerate
-- **Weights & Biases Integration**: Comprehensive experiment tracking
-- **Gradient Statistics**: Advanced gradient analysis and monitoring
+### Optimizers
+- **cadamw**: Custom AdamW implementation with enhanced features
+- **MuonWithAuxAdam**: Novel optimizer with auxiliary parameters
+- Note that no other optimizers are currently supported
 
 ## 📊 Evaluation
 
@@ -155,41 +143,10 @@ Baseline results achieved with default configuration:
 
 | Benchmark | 0-shot | 5-shot |
 |-----------|--------|--------|
-| MMLU | 44.08% | 46.30% |
-| HellaSwag | 51.99% | - |
-| ARC Challenge | 36.00% | - |
+| MMLU (acc) | 44.08% | 46.30% |
+| HellaSwag (acc norm) | 51.99% | - |
+| ARC Challenge (acc norm) | 36.00% | - |
 
-## 🛠️ Advanced Usage
-
-### Custom Training
-
-```python
-from alg.run import train
-from alg.args import get_args
-
-# Get default arguments
-training_args, model_args, dataset_args, eval_args = get_args()
-
-# Modify arguments as needed
-training_args.learning_rate = 2e-4
-training_args.max_steps = 20000
-
-# Start training
-train(training_args, model_args, dataset_args, eval_args)
-```
-
-### Benchmarking
-
-```python
-from alg.run import benchmark
-
-# Run hyperparameter sweep
-benchmark(
-    learning_rate=[1e-4, 2e-4, 4e-4],
-    optimizer_name=["cadamw", "muon"],
-    per_device_train_batch_size=[2, 4, 8]
-)
-```
 
 ## 🔍 Troubleshooting
 
@@ -205,17 +162,3 @@ benchmark(
 - Enable gradient checkpointing for memory efficiency
 - Use appropriate batch sizes for your hardware
 - Monitor GPU utilization and adjust accordingly
-
-## 📝 License
-
-[Add your license information here]
-
-## 🤝 Contributing
-
-[Add contribution guidelines here]
-
-## 📚 References
-
-- [AdamW Paper](https://arxiv.org/abs/1711.05101)
-- [Flash Attention](https://arxiv.org/abs/2205.14135)
-- [Knowledge Distillation](https://arxiv.org/abs/1503.02531)
