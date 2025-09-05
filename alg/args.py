@@ -76,7 +76,7 @@ class TrainingArguments(TrainingArguments):
     max_steps: int = 16000
     slm_distil: bool = False
     distil: bool = True
-    distmodel: str = "kaizen9/test2b12"
+    distmodel: str = "RedMod/speedrun_model"
     save_only_model: bool = True
     # DDP thing
     ddp_find_unused_parameters: bool = False #True
