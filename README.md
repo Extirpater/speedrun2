@@ -1,13 +1,12 @@
-# Speedrun: Efficient Language Model Training
+# Ternary Speedrun: Efficient Language Model Training
 
-A high-performance framework for training and evaluating language models with advanced optimization techniques, including custom optimizers and quantization methods.
+Train a ternary model within 6 on 2 H100s
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.10
-- CUDA-compatible GPU (recommended: H100)
-- Conda or pip
+### Background
+
+This repo is focused ont the fast training of a ternary model (2 billion parameters) using distillation. The repo currently implements ternary quantization via straight through estimation, using the Ternary Weight Networks quantizer rowwise. Distillation is done using a combination of kl-divergence and cross entropy on ground truth data. 
 
 ### Installation
 
@@ -56,10 +55,10 @@ speedrun/
 ├── alg/                          # Core training algorithms
 │   ├── args.py                   # Training configuration and arguments
 │   ├── run.py                    # Main training entry point
-│   ├── merge_trainer.py          # Custom trainer with advanced features
-│   ├── cadamw.py                 # Custom AdamW optimizer implementation
+│   ├── merge_trainer.py          # Custom trainer
+│   ├── cadamw.py                 # Cautious AdamW optimizer implementation
 │   ├── muon.py                   # Muon optimizer implementation
-│   ├── models.py                 # Model definitions and utilities
+│   ├── models.py                 # Model definitions and utilities - where a quantized linear layer is defined
 │   ├── data.py                   # Data loading and preprocessing
 │   ├── metrics.py                # Training metrics and evaluation
 │   └── objectives/               # Loss functions and training objectives
