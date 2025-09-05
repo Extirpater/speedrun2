@@ -19,13 +19,18 @@ A high-performance framework for training and evaluating language models with ad
 
 2. **Set up the environment:**
    ```bash
+   # if conda is installed
+   # conda create -n spd python=3.10
+   # conda activate spd
+   # else
+   python -m venv env && source env/bin/activate
    bash setup.sh
    ```
 
 3. **Prepare the dataset:**
    ```bash
    cd data
-   bash process_data.sh
+   bash process_data.sh # this command fails with (some regularity) if it does, just rerun the block
    cd ..
    ```
 

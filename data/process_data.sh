@@ -6,6 +6,10 @@
 #   CONFIG_DOWN  = configs/test.json
 #   CONFIG_SHARD = configs/test_shard.json
 #   LOG_FILE     = data.out
+tdir="./tmp"
+if [[ -d "$tdir" ]]; then
+  rm -rf -- "$tdir"
+fi
 
 dir="./test_dataset"
 if [[ -d "$dir" ]]; then
