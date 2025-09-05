@@ -80,7 +80,7 @@ def benchmark(params=None, **kwargs):
         torch.cuda.empty_cache()
 
 
-def train(training_args, model_args, dataset_args, eval_args):
+def train(training_args, model_args, eval_args):
     """
     Main training function.
     
@@ -94,7 +94,7 @@ def train(training_args, model_args, dataset_args, eval_args):
         Training results from the trainer
     """
     trainer = MergeTrainer.from_args(
-        training_args, model_args, dataset_args, eval_args
+        training_args, model_args, eval_args
     )
     if training_args.resume:
         trainer_results = trainer.train(resume_from_checkpoint=True)

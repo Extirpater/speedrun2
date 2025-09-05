@@ -3,7 +3,7 @@ from torch.utils.data import IterableDataset, DataLoader
 from datasets import load_dataset, interleave_datasets
 from transformers import AutoTokenizer
 class HuggingFaceDataset(IterableDataset):
-    def __init__(self, tokenizer):
+    def __init__(self):
         """
         Args:
             dataset_name (str): Name of the Hugging Face dataset to load.

@@ -160,7 +160,7 @@ class MergeTrainer(transformers.Trainer):
                     {'params': non_proj}
                 ], lr=learning_rate, weight_decay=w_decay)
         else:
-            raise ValueError, "optimizer not implemented. only cadamw and MuonWithAuxAdam implemented"
+            raise ValueError
         
         self.optimizer = optimizer
         return self.optimizer
