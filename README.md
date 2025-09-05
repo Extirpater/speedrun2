@@ -1,6 +1,6 @@
 # Ternary Speedrun: Efficient Language Model Training
 
-Train a ternary model within 6 on 2 H100s
+Train a ternary model within 6 hours on 2 H100s.
 
 ## 🚀 Quick Start
 
