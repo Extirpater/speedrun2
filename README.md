@@ -46,7 +46,7 @@ A high-performance framework for training and evaluating language models with ad
 
 6. **Evaluate the model:**
    ```bash
-   bash eval.sh
+   bash eval.sh # alternative for 5 shot, run python eval.py --model_name <checkpoin> --tasks <task> --num_fewshot <num shots>
    ```
 
 ## 📁 Project Structure
