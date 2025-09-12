@@ -57,10 +57,10 @@ class ConcatTokensDataset(IterableDataset):
                                          add_special_tokens=False)['input_ids']
         self.limit = limit
         self.line_limit = limit // max_length
-        if len(self.bos_tokens) > 1:
-            warnings.warn(
-                f'You specified --concat_tokens with --bos_text, but your BOS text is not tokenizing to one token\
-                , instead we got {self.bos_tokens}. Quit if this was in error.')
+        # if len(self.bos_tokens) > 1:
+        #     warnings.warn(
+        #         f'You specified --concat_tokens with --bos_text, but your BOS text is not tokenizing to one token\
+        #         , instead we got {self.bos_tokens}. Quit if this was in error.')
 
         eos_text_provided = self.eos_text != ''
         bos_text_provided = self.bos_text != ''
