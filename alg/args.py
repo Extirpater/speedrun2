@@ -8,7 +8,7 @@ num_gpus = torch.cuda.device_count()
 
 # main training args; optimizer args + etc needed for overriding trainer defaults + logging
 bs = 3
-optimizer_name = "cadamw"
+optimizer_name = "adamtr"   #"cadamw"
 learning_rate = 1e-4
 w_decay = 0.01
 lr_aux_adam = 1e-4

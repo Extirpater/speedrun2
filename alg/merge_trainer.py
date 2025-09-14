@@ -26,6 +26,7 @@ import datasets
 from torch.optim.lr_scheduler import LambdaLR
 from cadamw import AdamW
 from muon import MuonWithAuxAdam
+from adamtr import TernaryTRPrecondWithAuxAdamV2
 from transformers.training_args import OptimizerNames
 datasets.builder.has_sufficient_disk_space = lambda needed_bytes, directory='.': True
 
@@ -154,6 +155,29 @@ class MergeTrainer(transformers.Trainer):
                             lr=lr_aux_adam, betas=(0.99, 0.999), weight_decay=decay_aux_adam),
                 ])
             self.muon = True
+        elif optimizer_name == "adamtr":
+            optimizer = TernaryTRPrecondWithAuxAdamV2([
+    dict(params=fw_params, use_tr=True,
+         precond="adafactor",                 # fast default; or "shampoo" for small mats
+         lr=learning_rate, weight_decay=w_decay,
+         beta1=0.9, wmax=1.0,
+         target_update_rms=1.2,               # a bit more aggressive
+         polar_iters=2, polar_max_dim=2048,
+         beta2_ada=0.999,
+         # anti-stall knobs
+         stall_window=80, stall_tol=0.25,     # detect small updates for longer
+         boost_factor=2.0, boost_steps=8,     # stronger/longer kick
+         upd_ema_alpha=0.98,
+         mask_relax_every=200,                # periodically skip cautious mask
+         mask_tau=1e-6,                       # only zero momentum if |g| > tau
+         decay_warmup_steps=1000,             # no WD early
+         max_grad_norm=1.0, eps=1e-8),
+
+    dict(params=non_proj, use_tr=False,
+         lr=lr_aux_adam, weight_decay=decay_aux_adam,
+         betas=(0.9, 0.999), eps=1e-8,
+         decay_warmup_steps=1000, max_grad_norm=1.0),
+])
         elif optimizer_name == "cadamw":
             optimizer = AdamW([
                     {'params': fw_params},
