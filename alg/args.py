@@ -8,8 +8,8 @@ num_gpus = torch.cuda.device_count()
 
 # main training args; optimizer args + etc needed for overriding trainer defaults + logging
 bs = 3
-optimizer_name = "adamtr"   #"cadamw"
-learning_rate = 1e-4
+optimizer_name = "scadamw" #"cadamw"
+learning_rate = 5e-5
 w_decay = 0.01
 lr_aux_adam = 1e-4
 decay_aux_adam = 0.01
@@ -67,7 +67,7 @@ class EvalArguments:
 class TrainingArguments(TrainingArguments):
     # optimize convergence to final model
     max_grad_norm: float = 1.0
-    warmup_steps: int = 100
+    warmup_steps: int = 200
     lr_scheduler_type: str = "warmup_stable_decay"
     num_decay_steps: int = 2000
     min_lr_ratio: float = 0.1
