@@ -150,7 +150,7 @@ class MergeTrainer(transformers.Trainer):
         non_proj.extend(opt_model.model.embed_tokens.parameters())
         
         if optimizer_name == "GraphMuonWithAuxAdam":
-            optimizer = GraphMuonWithAuxAdam([
+            optimizer = CautiousMuonWithAuxAdam([
                     dict(params=fw_params, use_muon=True,
                             lr=learning_rate, weight_decay=w_decay),
                     dict(params=non_proj, use_muon=False,
