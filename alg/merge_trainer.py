@@ -26,7 +26,9 @@ import datasets
 from torch.optim.lr_scheduler import LambdaLR
 from cadamw import AdamW
 from muon import MuonWithAuxAdam
+from cmuon import CautiousMuonWithAuxAdam
 from scadamw import SignEMAAdamW
+from gmuon import GraphMuonWithAuxAdam
 from transformers.training_args import OptimizerNames
 datasets.builder.has_sufficient_disk_space = lambda needed_bytes, directory='.': True
 
@@ -147,8 +149,8 @@ class MergeTrainer(transformers.Trainer):
         non_proj.extend(opt_model.lm_head.parameters())
         non_proj.extend(opt_model.model.embed_tokens.parameters())
         
-        if optimizer_name == "MuonWithAuxAdam":
-            optimizer = MuonWithAuxAdam([
+        if optimizer_name == "GraphMuonWithAuxAdam":
+            optimizer = GraphMuonWithAuxAdam([
                     dict(params=fw_params, use_muon=True,
                             lr=learning_rate, weight_decay=w_decay),
                     dict(params=non_proj, use_muon=False,

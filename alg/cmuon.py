@@ -32,13 +32,19 @@ def zeropower_via_newtonschulz5(G, steps: int):
 
 
 def muon_update(grad, momentum, beta=0.95, ns_steps=5, nesterov=True):
+    #grad power
+    power = 1.2
+    grad = torch.sign(grad) * torch.pow(torch.abs(grad) + 1e-6, power)
+
     momentum.lerp_(grad, 1 - beta)
     update = grad.lerp_(momentum, beta) if nesterov else momentum
     if update.ndim == 4: # for the case of conv filters
         update = update.view(len(update), -1)
     update = zeropower_via_newtonschulz5(update, steps=ns_steps)
     update *= max(1, grad.size(-2) / grad.size(-1))**0.5
-    return update
+    mask = (update * grad > 0).to(update.dtype)
+    mask.div_(mask.mean().clamp_(min=1e-3))
+    return update * mask
 
 
 class Muon(torch.optim.Optimizer):
@@ -129,7 +135,7 @@ def adam_update(grad, buf1, buf2, step, betas, eps):
     return buf1c / (buf2c.sqrt() + eps)
 
 
-class MuonWithAuxAdam(torch.optim.Optimizer):
+class CautiousMuonWithAuxAdam(torch.optim.Optimizer):
     """
     Distributed Muon variant that can be used for all parameters in the network, since it runs an
     internal AdamW for the parameters that are not compatible with Muon. The user must manually
